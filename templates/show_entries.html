@@ -6,14 +6,22 @@
       <dd><input type="text" size="30" name="title">
       <dt>Text:
       <dd><textarea name="text" rows="5" cols="40"></textarea>
+      <dt>Category:
+      <dd><input type="text" size="30" name="category"></dd>
+      <p> </p>
       <dd><input type="submit" value="Share">
     </dl>
   </form>
   <ul class="entries">
   {% for entry in entries %}
-    <li><h2>{{ entry.title }}</h2>{{ entry.text|safe }}</li>
+      <li><h2>{{ entry.title }}</h2><h3>Category: {{ entry.category }}</h3>{{ entry.text|safe }}</li>
   {% else %}
     <li><em>Unbelievable.  No entries here so far</em></li>
   {% endfor %}
   </ul>
+  <select name="Category" id="category">
+    {%  for category in categories %}
+      <option>{{ category.category }}</option>
+    {% endfor %}
+  </select>
 {% endblock %}
