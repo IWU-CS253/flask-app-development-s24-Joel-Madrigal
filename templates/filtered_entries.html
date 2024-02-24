@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+
+<ul class="entries">
+  {% for entry in category %}
+      <li><h2>{{ entry.title }}</h2><h3>Category: {{ entry.category }}</h3>{{ entry.text|safe }}</li>
+      <form action="/delete" method="post">
+            <input name="id" type="hidden" value={{ entry.id }}>
+            <button name='delete'>Delete</button>
+      </form>
+  {% else %}
+    <li><em>Unbelievable.  No entries here so far</em></li>
+  {% endfor %}
+
+    <form action="/return" method="post">
+        <button name='return'>Return</button>
+    </form>
+  </ul>
+
+{% endblock %}

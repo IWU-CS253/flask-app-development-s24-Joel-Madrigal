@@ -27,11 +27,12 @@
   {% endfor %}
   </ul>
 
-  <select name="Category" id="category">
-
-    {% for category in categories %}
-      <option>{{ category.category }}</option>
-    {% endfor %}
-
-  </select>
+    <form action="/filter" method="post">
+        <select name="category">
+            {% for cat in categories %}
+              <option name="category" value="{{ cat.category }}">{{ cat.category }}</option>
+            {% endfor %}
+        <input type="submit" value="filter">
+        </select>
+    </form>
 {% endblock %}

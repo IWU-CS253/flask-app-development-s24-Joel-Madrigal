@@ -71,8 +71,8 @@ def show_entries():
     cur = db.execute('select id, title, text, category from entries order by id desc')
     entries = cur.fetchall()
     cur = db.execute('select distinct category from entries')
-    cat = cur.fetchall()
-    return render_template('show_entries.html', entries=entries, categories=cat)
+    categories = cur.fetchall()
+    return render_template('show_entries.html', entries=entries, categories=categories)
 
 
 @app.route('/add', methods=['POST'])
@@ -92,3 +92,17 @@ def delete_entry():
                [request.form['id']])
     db.commit()
     return redirect(url_for('show_entries'))
+
+
+@app.route('/filter', methods=['POST'])
+def filter_posts():
+    db = get_db()
+    cur = db.execute('select id, title, text, category from entries where category = ?', [request.form['category']])
+    category = cur.fetchall()
+    return render_template('filtered_entries.html', category=category)
+
+
+@app.route('/return', methods=['POST'])
+def return_to():
+    return redirect(url_for('show_entries'))
+
