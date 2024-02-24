@@ -68,7 +68,7 @@ def close_db(error):
 @app.route('/')
 def show_entries():
     db = get_db()
-    cur = db.execute('select title, text, category from entries order by id desc')
+    cur = db.execute('select id, title, text, category from entries order by id desc')
     entries = cur.fetchall()
     cur = db.execute('select distinct category from entries')
     cat = cur.fetchall()
@@ -82,4 +82,13 @@ def add_entry():
                [request.form['title'], request.form['text'], request.form['category']])
     db.commit()
     flash('New entry was successfully posted')
+    return redirect(url_for('show_entries'))
+
+
+@app.route('/delete', methods=['POST'])
+def delete_entry():
+    db = get_db()
+    db.execute('delete from entries where id = ?',
+               [request.form['id']])
+    db.commit()
     return redirect(url_for('show_entries'))
