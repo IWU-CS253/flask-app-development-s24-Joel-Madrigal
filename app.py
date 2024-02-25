@@ -85,6 +85,14 @@ def add_entry():
     return redirect(url_for('show_entries'))
 
 
+@app.route('/filter', methods=['POST'])
+def filter_posts():
+    db = get_db()
+    cur = db.execute('select id, title, text, category from entries where category = ?', [request.form['category']])
+    category = cur.fetchall()
+    return render_template('filtered_entries.html', category=category)
+
+
 @app.route('/delete', methods=['POST'])
 def delete_entry():
     db = get_db()
@@ -92,14 +100,6 @@ def delete_entry():
                [request.form['id']])
     db.commit()
     return redirect(url_for('show_entries'))
-
-
-@app.route('/filter', methods=['POST'])
-def filter_posts():
-    db = get_db()
-    cur = db.execute('select id, title, text, category from entries where category = ?', [request.form['category']])
-    category = cur.fetchall()
-    return render_template('filtered_entries.html', category=category)
 
 
 @app.route('/return', methods=['POST'])
