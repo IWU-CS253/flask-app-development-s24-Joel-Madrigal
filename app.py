@@ -68,7 +68,8 @@ def close_db(error):
 @app.route('/')
 def show_entries():
     db = get_db()
-    cur = db.execute('select id, title, text, category from entries order by id desc')
+    cur = db.execute(
+        'select id, title, text, category from entries order by id desc')
     entries = cur.fetchall()
     cur = db.execute('select distinct category from entries')
     categories = cur.fetchall()
@@ -88,7 +89,8 @@ def add_entry():
 @app.route('/filter', methods=['POST'])
 def filter_posts():
     db = get_db()
-    cur = db.execute('select id, title, text, category from entries where category = ?', [request.form['category']])
+    cur = db.execute('select id, title, text, category from entries where category = ?', [
+                     request.form['category']])
     category = cur.fetchall()
     return render_template('filtered_entries.html', category=category)
 
@@ -105,4 +107,6 @@ def delete_entry():
 @app.route('/return', methods=['POST'])
 def return_to():
     return redirect(url_for('show_entries'))
+
+
 
