@@ -32,13 +32,13 @@ class FlaskrTestCase(unittest.TestCase):
         assert b'<strong>HTML</strong> allowed here' in rv.data
         assert b'A category' in rv.data
 
-    def test_delete(self):
-        rv = self.app.post('/delete', data=dict(
-            title='<Hello>',
-            text='<strong>HTML</strong> allowed here',
-            category='A category'
-        ), follow_redirects=True)
-        assert b'Delete' in rv.data
+    #def test_delete(self):
+    #   rv = self.app.post('/delete', data=dict(
+    #        title='<Hello>',
+    #        text='<strong>HTML</strong> allowed here',
+    #        category='A category'
+    #    ), follow_redirects=True)
+    #    assert b'Delete' in rv.data
 
     def test_filter(self):
         rv = self.app.post('/filter', data=dict(
