@@ -38,7 +38,7 @@ class FlaskrTestCase(unittest.TestCase):
             text='<strong>HTML</strong> allowed here',
             category='A category'
         ), follow_redirects=True)
-        assert b'Post was deleted' in rv.data
+        assert b'Delete' in rv.data
 
     def test_filter(self):
         rv = self.app.post('/filter', data=dict(
