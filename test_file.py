@@ -32,21 +32,45 @@ class FlaskrTestCase(unittest.TestCase):
         assert b'<strong>HTML</strong> allowed here' in rv.data
         assert b'A category' in rv.data
 
-    #def test_delete(self):
-    #   rv = self.app.post('/delete', data=dict(
-    #        title='<Hello>',
-    #        text='<strong>HTML</strong> allowed here',
-    #        category='A category'
-    #    ), follow_redirects=True)
-    #    assert b'Delete' in rv.data
-
-    def test_filter(self):
-        rv = self.app.post('/filter', data=dict(
+    def test_delete(self):
+        self.app.post('/add', data=dict(
             title='<Hello>',
             text='<strong>HTML</strong> allowed here',
             category='A category'
         ), follow_redirects=True)
-        assert b'Unbelievable.  No entries here so far' in rv.data
+
+        rv = self.app.post('/delete', data=dict(
+            title='<Hello>',
+            text='<strong>HTML</strong> allowed here',
+            category='A category',
+            id='1'
+        ), follow_redirects=True)
+
+        assert b'No entries here so far' in rv.data
+        assert b'&lt;Hello&gt;' not in rv.data
+
+    def test_filter(self):
+        self.app.post('/add', data=dict(
+            title='<Hello>',
+            text='<strong>HTML</strong> allowed here',
+            category='A category'
+        ), follow_redirects=True)
+
+        rb = self.app.post('/filter', data=dict(
+            category='A category'
+        ), follow_redirects=True)
+
+        assert b'Unbelievable.  No entries here so far' not in rb.data
+        assert b'<strong>HTML</strong> allowed here' in rb.data
+        assert b'A category' in rb.data
+
+        rz = self.app.post('/filter', data=dict(
+            category='wrong category'
+        ), follow_redirects=True)
+
+        assert b'Unbelievable.  No entries here so far' in rz.data
+        assert b'<strong>HTML</strong> allowed here' not in rz.data
+        assert b'A category' not in rz.data
 
 
 if __name__ == '__main__':
