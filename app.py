@@ -101,6 +101,27 @@ def delete_entry():
     db.execute('delete from entries where id = ?',
                [request.form['id']])
     db.commit()
+    flash('Post was deleted')
+    return redirect(url_for('show_entries'))
+
+
+@app.route('/edit', methods=['POST'])
+def new_page():
+    location = request.form['id']
+    db = get_db()
+    cur = db.execute('select title, text, category, id from entries where id = ?',
+                     [location])
+    locate = cur.fetchone()
+    return render_template('edit_page.html', locate=locate)
+
+
+@app.route('/', methods=['POST'])
+def update_edit():
+    db = get_db()
+    db.execute('update entries set title = ?, text = ?, category = ? where id = ?',
+               [request.form['title'], request.form['text'], request.form['category'],
+                request.form['id']])
+    db.commit()
     return redirect(url_for('show_entries'))
 
 
