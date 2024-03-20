@@ -107,10 +107,10 @@ def delete_entry():
 
 @app.route('/edit', methods=['POST'])
 def new_page():
-    location = request.form['id']
+    locate = request.form['id']
     db = get_db()
     cur = db.execute('select title, text, category, id from entries where id = ?',
-                     [location])
+                     [locate])
     locate = cur.fetchone()
     return render_template('edit_page.html', locate=locate)
 
