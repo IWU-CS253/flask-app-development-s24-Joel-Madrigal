@@ -1,11 +1,9 @@
-# FlaskrPlus assignment
+# FlaskrPlusPlus assignment
 # Author: Joel Madrigal
 # Building upon Mark Liffiton's starter code for "example flask application."
-App description: Entry logging applicatoin that takes user entries (title, text, and a category) and displays them on a webpage.
+App description: Entry logging application that takes user entries (title, text, and a category) and displays them on a webpage.
 
 New app features:
-Ability to assign a user-provided category and display the posts category underneath it's title.
-Ability to filter posts by category so we can view posts only of the chosen category. Users will
-be able to select a category from a list without knowing all of the available categories and without
-having to use the back button.
-Ability to delete posts via a delete button.
+Ability to edit posts(text, title, or category). 
+New styling through Bootstrap.
+Unittests to test all functional methods of the application to ensure correctness.

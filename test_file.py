@@ -139,5 +139,6 @@ class FlaskrTestCase(unittest.TestCase):
         assert b'A category' in rv.data
 
 
+
 if __name__ == '__main__':
     unittest.main()
