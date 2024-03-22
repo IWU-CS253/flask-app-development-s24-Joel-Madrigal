@@ -126,6 +126,7 @@ def update_edit():
 
 
 @app.route('/return', methods=['POST'])
+
 def return_to():
     return redirect(url_for('show_entries'))
 
