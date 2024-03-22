@@ -1,62 +1,50 @@
 {% extends "layout.html" %}
 {% block body %}
 
-
 <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
-    <div class="vstack gap-3">
-        <input class="form-control" type="text" size="30" name="title" placeholder="Title">
-        <textarea class="form-control" name="text" rows="5" cols="40" placeholder="Text"></textarea>
-        <input class="form-control" type="text" size="30" name="category" placeholder="Category">
-    </div>
-    <button type="submit" value="Share" class="btn btn-primary w-100">Post</button>
+  <dl>
+    <dt>Title:
+    <dd><input type="text" size="30" name="title">
+    <dt>Text:
+    <dd><textarea name="text" rows="5" cols="40"></textarea>
+    <dt>Category:
+    <dd><input type="text" size="30" name="category"></dd>
+    <p> </p>
+    <dd><input type="submit" value="Share">
+  </dl>
 </form>
-<div id="categories" class="mb-3">
-    <p class="text-muted"><b>Filter posts based on their category: </b></p>
-    <form action="/filter" method="post">
-        <select name="category" class="form-select">
-            <option name="category" selected="selected" disabled>Filter: </option>
-              {% for cat in categories %}
-                <option name="category" value="{{ cat.category }}">{{ cat.category }}</option>
-              {% endfor %}
-        </select>
-        <button id="filter" type="submit" value="filter" class="btn btn-primary w-100">Enter</button>
-    </form>
+<div id="categories">
+  <p><b>Filter posts based on their category: </b></p>
+  <form action="/filter" method="post">
+    <select name="category">
+    <option name="category" selected="selected" disabled>Choose: </option>
+      {% for cat in categories %}
+      <option name="category" value="{{ cat.category }}">{{ cat.category }}</option>
+      {% endfor %}
+      <input id="filter" type="submit" value="filter">
+    </select>
+  </form>
 </div>
 
+<ul class="entries">
+  {% for entry in entries %}
+  <li>
+    <h2>{{ entry.title }}</h2>
+    <h3>Category: {{ entry.category }}</h3><b>Entry: {{ entry.text|safe }}</b>
+  </li>
+  <ins> </ins>
+  <form id="box" action="/delete" method="post">
+    <input name="id" type="hidden" value={{ entry.id }}>
+    <button id="button" name='delete'>Delete</button>
+  </form>
+  <form id="box" action="/edit" method="post">
+    <input name="id" type="hidden" value={{ entry.id }}>
+    <button id="button" name='delete'>Edit</button>
+  </form>
 
-<div class="container text-center">
-    <div class="col">
-        <div class="row">
-          {% for entry in entries %}
-          <div class="col">
-            <ul class="list-group">
-              <li class="list-group-item">
-                <h2>{{ entry.title }}</h2>
-                <h3>Category: {{ entry.category }}</h3>
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <form id="box" action="/delete" method="post">
-                      <input name="id" type="hidden" value={{ entry.id }}>
-                      <button type="submit" class="btn btn-secondary" id="button" name='delete'>Delete</button>
-                    </form>
-                    <form id="box" action="/edit" method="post">
-                      <input name="id" type="hidden" value={{ entry.id }}>
-                      <button type="submit" class="btn btn-secondary" id="button" name='delete'>Edit</button>
-                    </form>
-                </div>
-              <h2>Entry: {{ entry.text|safe }}</h2>
-              </li>
-            </ul>
-          </div>
-          {% else %}
-          <div class="col">
-            <ul class="list-group">
-              <li class="list-group-item"><em>Unbelievable. No entries here so far</em></li>
-            </ul>
-          </div>
-          {% endfor %}
-        </div>
-    </div>
-</div>
-
+  {% else %}
+  <li><em>Unbelievable. No entries here so far</em></li>
+  {% endfor %}
+</ul>
 
 {% endblock %}
